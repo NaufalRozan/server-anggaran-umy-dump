@@ -43,9 +43,32 @@ class LaporanRepository {
                         name: true,
                         kpiCode: true,
                         target: true,
-
+                    }
+                },
+                FileLaporan: {
+                    select: {
+                        id: true,
+                        filename: true,
+                        originalName: true,
+                        path: true,
+                        extension: true,
+                        mimetype: true,
+                        size: true,
+                        createdAt: true,
+                        updatedAt: true,
                     }
                 }
+            }
+        })
+    }
+
+    static async FindOne(id: string) {
+        return db.laporan.findUnique({
+            where: {
+                id
+            },
+            include: {
+
             }
         })
     }

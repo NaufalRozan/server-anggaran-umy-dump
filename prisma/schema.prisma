@@ -324,16 +324,35 @@ model ReviewProgram {
 model Laporan {
   id          String  @id @default(cuid())
   indikatorId String  @map("indikator_id")
-  capaian     String?
-  kendala     String?
-  perbaikan   String?
-  rtl         String?
-  pic         String?
-  fileName    String?
+  capaian     String? @db.Text
+  kendala     String? @db.Text
+  perbaikan   String? @db.Text
+  rtl         String? @db.Text
+  pic         String? @db.Text
   indicator   kpi     @relation(fields: [indikatorId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  FileLaporan FileLaporan[]
 
   @@map("laporan")
+}
+
+model FileLaporan {
+  id           String   @id @default(cuid())
+  laporanId    String   @map("laporan_id")
+  filename     String
+  originalName String
+  path         String
+  mimetype     String
+  size         Int
+  extension    String
+  description  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  laporan      Laporan  @relation(fields: [laporanId], references: [id])
+
+  @@index([filename])
+  @@index([createdAt])
+  @@map("file_laporan")
 }

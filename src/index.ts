@@ -4,11 +4,27 @@ import fCookie from '@fastify/cookie'
 import { UserPayload } from './global'
 import cors from '@fastify/cors'
 import { serverRoutes } from './routes'
-import { db } from './config/prisma'
+import multipart from '@fastify/multipart'
+import { streamFileByIDHandler, streamFileByPathHandler } from './modules/file-laporan/file-laporan.controller'
+const server = Fastify()
 
-const server = Fastify({})
-
-server.register(import("@fastify/swagger"));
+server.register(import("@fastify/swagger"), {
+    swagger: {
+        info: {
+            title: "SPMI API",
+            description: "SPMI API Documentation",
+            version: "0.1.0",
+        },
+        externalDocs: {
+            url: "https://spmi.iqbalalhabib.com/docs",
+            description: "Find more info here",
+        },
+        host: "localhost:5000",
+        schemes: ["http", "https"],
+        consumes: ["application/json", "multipart/form-data"],
+        produces: ["application/json"],
+    }
+});
 server.register(import("@fastify/swagger-ui"), {
     prefix: "/docs",
 });
@@ -62,6 +78,30 @@ server.register(fCookie, {
     secret: process.env.COOKIE_SECRET || 'supersecret',
     hook: 'preHandler',
 })
+
+server.register(multipart, {
+    attachFieldsToBody: true,
+})
+
+server.get(
+    "/public/:id",
+    {
+        schema: {
+            tags: ["File"],
+        },
+    },
+    streamFileByIDHandler
+);
+
+server.get(
+    "/public/filename/:filename",
+    {
+        schema: {
+            tags: ["File"],
+        },
+    },
+    streamFileByPathHandler
+);
 
 server.get('/', async (request, reply) => {
     return { hello: 'world' }

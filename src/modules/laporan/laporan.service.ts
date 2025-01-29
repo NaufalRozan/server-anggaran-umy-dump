@@ -23,6 +23,10 @@ class LaporanService {
         )
     }
 
+    static async findOneLaporan(id: string) {
+        return LaporanRepository.FindOne(id)
+    }
+
     static async deleteLaporan(id: string) {
         return LaporanRepository.Delete(id)
     }

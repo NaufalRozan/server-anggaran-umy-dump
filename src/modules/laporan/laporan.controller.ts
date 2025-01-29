@@ -47,6 +47,26 @@ export async function findAllLaporanHandler(
     }
 }
 
+export async function findOneLaporanHandler(
+    request: FastifyRequest<{
+        Params: {
+            id: string
+        }
+    }>,
+    reply: FastifyReply
+) {
+    try {
+        const laporan = await LaporanService.findOneLaporan(request.params.id)
+        reply.send({
+            data: laporan,
+            message: "Laporan Fetched Successfully",
+            status: "success"
+        })
+    } catch (error) {
+        errorFilter(error, reply)
+    }
+}
+
 export async function deleteLaporanHandler(
     request: FastifyRequest<{
         Params: {

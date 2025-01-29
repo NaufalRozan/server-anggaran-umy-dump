@@ -25,12 +25,11 @@ class FileService {
         const uniqueFilename = `${Date.now()}-${clearFileName}`
         const filePath = path.join(uploadDir, uniqueFilename)
 
-        try {
-            await pump(fileData.file, fs.createWriteStream(filePath));
-            console.log('File uploaded successfully');
-        } catch (error) {
-            console.error('Error while uploading file:', error);
-        }
+        fs.writeFile(filePath, await fileData.toBuffer(), (err) => {
+            if (err) {
+                throw new Error(err.message)
+            }
+        })
 
 
         return FileRepository.Insert(
@@ -84,7 +83,11 @@ class FileService {
         const uniqueFilename = `${Date.now()}-${clearFileName}`
         const filePath = path.join(__dirname, '../../public', fileRecord.filename);
 
-        await pump(fileData.file, fs.createWriteStream(filePath))
+        fs.writeFile(filePath, await fileData.toBuffer(), (err) => {
+            if (err) {
+                throw new Error(err.message)
+            }
+        })
 
         return FileRepository.Update(
             id,

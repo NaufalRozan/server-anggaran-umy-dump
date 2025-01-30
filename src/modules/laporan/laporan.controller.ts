@@ -22,6 +22,30 @@ export async function createLaporanHandler(
     }
 }
 
+export async function updateLaporanHandler(
+    request: FastifyRequest<{
+        Body: CreateLaporanInput
+        Params: {
+            id: string
+        }
+    }>,
+    reply: FastifyReply
+) {
+    try {
+        const laporan = await LaporanService.updateLaporan(
+            request.body,
+            request.params.id
+        )
+        reply.send({
+            data: laporan,
+            message: "Laporan Updated Successfully",
+            status: "success"
+        })
+    } catch (error) {
+        errorFilter(error, reply)
+    }
+}
+
 export async function findAllLaporanHandler(
     request: FastifyRequest<{
         Querystring: {

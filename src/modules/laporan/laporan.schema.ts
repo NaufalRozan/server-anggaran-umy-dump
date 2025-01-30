@@ -2,8 +2,8 @@ import { buildJsonSchemas } from "fastify-zod";
 import { z } from "zod";
 
 const createLaporanSchema = z.object({
-    capaian: z.string({
-        required_error: "Capaian harus diisi"
+    capaian: z.number({
+        required_error: "Capaian harus diisi",
     }),
     kendala: z.string({
         required_error: "Kendala harus diisi"
@@ -20,6 +20,7 @@ const createLaporanSchema = z.object({
     indikatorId: z.string({
         required_error: "Indikator ID harus diisi"
     }),
+    capaian_auditor: z.number().optional(),
 })
 
 export type CreateLaporanInput = z.infer<typeof createLaporanSchema>;

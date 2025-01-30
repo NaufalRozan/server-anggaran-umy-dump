@@ -14,6 +14,18 @@ class LaporanService {
         return LaporanRepository.Insert(inputDataLaporan)
     }
 
+    static async updateLaporan(laporanData: CreateLaporanInput, id: string) {
+        return LaporanRepository.Update(
+            id,
+            laporanData.capaian,
+            laporanData.kendala,
+            laporanData.perbaikan,
+            laporanData.rtl,
+            laporanData.pic,
+            laporanData.capaian_auditor,
+        )
+    }
+
     static async findAllLaporan(
         year?: string,
         indicatorId?: string) {

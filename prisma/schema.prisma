@@ -322,14 +322,15 @@ model ReviewProgram {
 }
 
 model Laporan {
-  id          String  @id @default(cuid())
-  indikatorId String  @map("indikator_id")
-  capaian     String? @db.Text
-  kendala     String? @db.Text
-  perbaikan   String? @db.Text
-  rtl         String? @db.Text
-  pic         String? @db.Text
-  indicator   kpi     @relation(fields: [indikatorId], references: [id])
+  id              String  @id @default(cuid())
+  indikatorId     String  @map("indikator_id")
+  capaian         Int?    @default(0)
+  capaian_auditor Int?    @default(0)
+  kendala         String? @db.Text
+  perbaikan       String? @db.Text
+  rtl             String? @db.Text
+  pic             String? @db.Text
+  indicator       kpi     @relation(fields: [indikatorId], references: [id])
 
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt

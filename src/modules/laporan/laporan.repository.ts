@@ -11,9 +11,35 @@ class LaporanRepository {
                 rtl: inputDataLaporan.rtl,
                 pic: inputDataLaporan.pic,
                 indikatorId: inputDataLaporan.indikatorId,
+                capaian_auditor: inputDataLaporan.capaian_auditor,
             }
         });
     }
+
+    static async Update(
+        id: string,
+        capaian: number,
+        kendala: string,
+        perbaikan: string,
+        rtl: string,
+        pic: string,
+        capaian_auditor?: number
+    ) {
+        return db.laporan.update({
+            where: {
+                id
+            },
+            data: {
+                capaian,
+                kendala,
+                perbaikan,
+                rtl,
+                pic,
+                capaian_auditor
+            }
+        })
+    }
+
 
     static async FindAll(
         year?: string,
@@ -30,6 +56,7 @@ class LaporanRepository {
             select: {
                 id: true,
                 capaian: true,
+                capaian_auditor: true,
                 kendala: true,
                 perbaikan: true,
                 rtl: true,

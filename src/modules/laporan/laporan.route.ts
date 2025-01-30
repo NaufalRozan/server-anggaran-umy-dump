@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { createLaporanHandler, deleteLaporanHandler, findAllLaporanHandler, findOneLaporanHandler } from "./laporan.controller";
+import { createLaporanHandler, deleteLaporanHandler, findAllLaporanHandler, findOneLaporanHandler, updateLaporanHandler } from "./laporan.controller";
 import { $ref } from "./laporan.schema";
 
 export async function laporanRoutes(server: FastifyInstance) {
@@ -12,6 +12,18 @@ export async function laporanRoutes(server: FastifyInstance) {
             preHandler: [server.authenticate]
         },
         findAllLaporanHandler
+    )
+
+    server.put(
+        "/:id",
+        {
+            schema: {
+                tags: ["Laporan"],
+                body: $ref("createLaporanSchema"),
+            },
+            preHandler: [server.authenticate]
+        },
+        updateLaporanHandler
     )
 
     server.get(
